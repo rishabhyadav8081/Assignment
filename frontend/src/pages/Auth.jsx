@@ -1,0 +1,11 @@
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+
+export default function Auth({ registerMode = false }) {
+  const { login, register } = useAuth(); const navigate = useNavigate();
+  const [form, setForm] = useState({ name: '', email: '', password: '' }); const [error, setError] = useState(''); const [loading, setLoading] = useState(false);
+  const submit = async (e) => { e.preventDefault(); setError(''); setLoading(true); try { await (registerMode ? register(form) : login(form)); navigate('/'); } catch (err) { setError(err.response?.data?.message || 'Something went wrong'); } finally { setLoading(false); } };
+  return <main className="container-page grid min-h-[calc(100vh-4rem)] place-items-center py-10"><form onSubmit={submit} className="card w-full max-w-md p-7"><h1 className="text-2xl font-bold">{registerMode ? 'Create an account' : 'Welcome back'}</h1><p className="mt-1 text-sm text-slate-500">{registerMode ? 'Start shopping with CartNest.' : 'Log in to continue shopping.'}</p>{error && <p className="mt-4 rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</p>}<div className="mt-6 space-y-4">{registerMode && <label className="block text-sm font-medium">Full name<input className="field mt-1" required value={form.name} onChange={(e) => setForm({...form, name:e.target.value})}/></label>}<label className="block text-sm font-medium">Email<input className="field mt-1" type="email" required value={form.email} onChange={(e) => setForm({...form, email:e.target.value})}/></label><label className="block text-sm font-medium">Password<input className="field mt-1" type="password" minLength="6" required value={form.password} onChange={(e) => setForm({...form, password:e.target.value})}/></label><button disabled={loading} className="btn-primary w-full">{loading ? 'Please wait...' : registerMode ? 'Create account' : 'Login'}</button></div><p className="mt-5 text-center text-sm text-slate-500">{registerMode ? 'Already registered?' : 'New here?'} <Link className="font-semibold text-brand-600" to={registerMode ? '/login' : '/register'}>{registerMode ? 'Login' : 'Create account'}</Link></p></form></main>;
+}
+

@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import { deleteUser, getAllUsers, getUserById, updateUserRole } from '../controllers/userController.js';
+import { allowRoles, protect } from '../middleware/auth.js';
+const router = Router();
+router.use(protect, allowRoles('admin'));
+router.get('/', getAllUsers);
+router.get('/:id', getUserById);
+router.patch('/:id/role', updateUserRole);
+router.delete('/:id', deleteUser);
+export default router;
