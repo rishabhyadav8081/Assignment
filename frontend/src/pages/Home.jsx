@@ -52,108 +52,145 @@ export default function Home() {
 
   return (
     <>
-      <section className="bg-brand-900 py-16 text-white">
-        <div className="container-page">
-          <p className="font-medium text-emerald-300">
-            Simple finds. Honest prices.
-          </p>
+     <section className="relative overflow-hidden bg-gradient-to-br from-emerald-900 via-teal-800 to-slate-900 text-white">
+  {/* Background decoration */}
+  <div className="absolute -left-20 top-10 h-72 w-72 rounded-full bg-emerald-500/20 blur-3xl" />
+  <div className="absolute right-0 top-0 h-96 w-96 rounded-full bg-cyan-500/20 blur-3xl" />
 
-          <h1 className="mt-3 max-w-2xl text-4xl font-bold leading-tight sm:text-5xl">
-            Everything you need, in one friendly store.
-          </h1>
+  <div className="container-page relative py-16 md:py-24">
+    <div className="max-w-3xl">
+      <span className="inline-flex rounded-full bg-white/10 px-4 py-1 text-sm font-medium text-emerald-200 backdrop-blur">
+        🛍️ Trusted Marketplace
+      </span>
 
-          <p className="mt-4 max-w-xl text-emerald-50/80">
-            Browse products from independent sellers and check out
-            securely.
-          </p>
-        </div>
-      </section>
+      <h1 className="mt-6 text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
+        Everything you need,
+        <br />
+        <span className="text-emerald-300">
+          in one friendly store.
+        </span>
+      </h1>
 
-      <main className="container-page py-10">
-        <div className="card -mt-16 mb-8 grid gap-3 p-4 md:grid-cols-5">
-          <label className="relative md:col-span-2">
-            <Search
-              className="absolute left-3 top-3 text-slate-400"
-              size={19}
-            />
+      <p className="mt-6 max-w-2xl text-lg text-slate-200">
+        Discover quality products from trusted sellers. Search,
+        compare and shop securely with fast delivery.
+      </p>
+    </div>
+  </div>
+</section>
 
-            <input
-              name="keyword"
-              value={filters.keyword}
-              onChange={change}
-              className="field pl-10"
-              placeholder="Search products"
-            />
-          </label>
+<main className="container-page relative -mt-10 pb-12">
 
-          <select
-            name="category"
-            value={filters.category}
-            onChange={change}
-            className="field"
+  {/* Filters */}
+  <div className="rounded-3xl bg-white p-5 shadow-2xl ring-1 ring-slate-200">
+
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+
+      <label className="relative lg:col-span-2">
+        <Search
+          size={18}
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+        />
+
+        <input
+          name="keyword"
+          value={filters.keyword}
+          onChange={change}
+          placeholder="Search products..."
+          className="h-12 w-full rounded-xl border border-slate-300 pl-11 pr-4 outline-none transition focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100"
+        />
+      </label>
+
+      <select
+        name="category"
+        value={filters.category}
+        onChange={change}
+        className="h-12 rounded-xl border border-slate-300 px-4 outline-none transition focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100"
+      >
+        <option value="">All Categories</option>
+
+        {categories.map((category) => (
+          <option
+            key={category}
+            value={category}
           >
-            <option value="">All categories</option>
+            {category}
+          </option>
+        ))}
+      </select>
 
-            {categories.map((x) => (
-              <option key={x}>{x}</option>
-            ))}
-          </select>
+      <input
+        name="minPrice"
+        type="number"
+        value={filters.minPrice}
+        onChange={change}
+        placeholder="Min ₹"
+        className="h-12 rounded-xl border border-slate-300 px-4 outline-none transition focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100"
+      />
 
-          <input
-            name="minPrice"
-            type="number"
-            value={filters.minPrice}
-            onChange={change}
-            className="field"
-            placeholder="Min price"
-          />
+      <input
+        name="maxPrice"
+        type="number"
+        value={filters.maxPrice}
+        onChange={change}
+        placeholder="Max ₹"
+        className="h-12 rounded-xl border border-slate-300 px-4 outline-none transition focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100"
+      />
+    </div>
 
-          <input
-            name="maxPrice"
-            type="number"
-            value={filters.maxPrice}
-            onChange={change}
-            className="field"
-            placeholder="Max price"
-          />
-        </div>
+  </div>
 
-        <div className="mb-5 flex items-center justify-between">
-          <h2 className="text-2xl font-bold">
-            Products
-          </h2>
+  {/* Heading */}
 
-          <span className="flex items-center gap-2 text-sm text-slate-500">
-            <SlidersHorizontal size={16} />
-            {data.count} results
-          </span>
-        </div>
+  <div className="mt-10 mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 
-        {loading ? (
-          <div className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div
-                key={i}
-                className="h-80 animate-pulse rounded-xl bg-slate-200"
-              />
-            ))}
-          </div>
-        ) : data.products.length ? (
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-6">
-            {data.products.map((product) => (
-              <ProductCard
-                key={product._id}
-                product={product}
-              />
-            ))}
-          </div>
-        ) : (
-          <EmptyState
-            title="No products found"
-            text="Try changing the search or filters."
-          />
-        )}
-      </main>
+    <div>
+      <h2 className="text-3xl font-bold text-slate-900">
+        Featured Products
+      </h2>
+
+      <p className="mt-1 text-slate-500">
+        Find the best deals from our marketplace.
+      </p>
+    </div>
+
+    <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600">
+      <SlidersHorizontal size={16} />
+      {data.count} Products
+    </div>
+
+  </div>
+
+  {/* Products */}
+
+  {loading ? (
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      {Array.from({ length: 10 }).map((_, i) => (
+        <div
+          key={i}
+          className="h-80 animate-pulse rounded-2xl bg-slate-200"
+        />
+      ))}
+    </div>
+  ) : data.products.length ? (
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      {data.products.map((product) => (
+        <ProductCard
+          key={product._id}
+          product={product}
+        />
+      ))}
+    </div>
+  ) : (
+    <div className="py-20">
+      <EmptyState
+        title="No products found"
+        text="Try changing your search or filters."
+      />
+    </div>
+  )}
+
+</main>
     </>
   );
 }
