@@ -1,5 +1,4 @@
-// Change only this URL after deploying the backend.
-export const BASE_API_URL = "http://localhost:5001/api";
+export const BASE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:5001/api";
 
 export const AUTH_API_END_POINT = `${BASE_API_URL}/auth`;
 export const USER_API_END_POINT = `${BASE_API_URL}/users`;

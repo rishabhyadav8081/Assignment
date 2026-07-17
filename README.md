@@ -59,7 +59,7 @@ npm run dev
 Frontend: `http://localhost:5173`  
 Backend health check: `http://localhost:5001/api/health`
 
-The frontend API URL is centralized in `frontend/src/api/apiEndpoints.js`. After deploying the backend, change only `BASE_API_URL` in that file.
+The frontend API URL is read from `VITE_API_URL` and falls back to the local API during development. Set `VITE_API_URL` in Vercel after deploying the backend.
 
 ## Demo accounts
 
