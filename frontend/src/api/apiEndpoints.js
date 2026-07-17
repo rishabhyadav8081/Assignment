@@ -1,4 +1,4 @@
-export const BASE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:5001/api";
+export const BASE_API_URL = import.meta.env.VITE_API_URL || "https://assignment-3-a4ms.onrender.com";
 
 export const AUTH_API_END_POINT = `${BASE_API_URL}/auth`;
 export const USER_API_END_POINT = `${BASE_API_URL}/users`;
