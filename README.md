@@ -98,7 +98,10 @@ Change these credentials before using the application outside a demonstration.
 5. During checkout use a Razorpay test payment method from their test-mode documentation. No real money is charged.
 
 ## Deployment
-
+## seed 
+{ name: 'Admin Demo', email: 'admin@assignment.com', password: 'Admin@123', role: 'admin' },
+  { name: 'Sales Demo', email: 'sales@assignment.com', password: 'Sales@123', role: 'sales' },
+  { name: 'Customer Demo', email: 'user@assignment.com', password: 'User@123', role: 'user' }
 ### Backend on Render
 
 1. Push the repository to GitHub and create a **Web Service** on Render.

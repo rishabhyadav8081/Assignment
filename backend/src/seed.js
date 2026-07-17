@@ -5,9 +5,9 @@ import bcrypt from 'bcryptjs';
 
 await connectDB();
 const accounts = [
-  { name: 'Admin Demo', email: 'admin@cartnest.com', password: 'Admin123!', role: 'admin' },
-  { name: 'Sales Demo', email: 'sales@cartnest.com', password: 'Sales123!', role: 'sales' },
-  { name: 'Customer Demo', email: 'user@cartnest.com', password: 'User123!', role: 'user' }
+  { name: 'Admin Demo', email: 'admin@assignment.com', password: 'Admin@123', role: 'admin' },
+  { name: 'Sales Demo', email: 'sales@assignment.com', password: 'Sales@123', role: 'sales' },
+  { name: 'Customer Demo', email: 'user@assignment.com', password: 'User@123', role: 'user' }
 ];
 for (const account of accounts) {
   const existing = await User.findOne({ email: account.email });
