@@ -243,12 +243,14 @@ The `frontend/public/_redirects` file should contain:
 - JWT is used for authentication.
 - Environment files are excluded from Git.
 - Render free services may take some time to start after being inactive.
-![Home](./src/assets/img1.png)
 
-![Login](./src/assets/img2.png)
+- 
+![Home](./frontend/src/assets/img1.png)
 
-![Dashboard](./src/assets/img3.png)
+![Login](./frontend/src/assets/img2.png)
 
-![Profile](./src/assets/img4.png)
+![Dashboard](./frontend/src/assets/img3.png)
 
-![Payment](./src/assets/img5.png)
+![Profile](./frontend/src/assets/img4.png)
+
+![Payment](./frontend/src/assets/img5.png)
