@@ -1,165 +1,245 @@
-# CartNest — Role-Based E-Commerce Platform
+# CartNest
 
-CartNest is a full-stack MERN e-commerce project built for an internship assignment. It has three roles with permissions enforced by the Express API, Cloudinary image uploads, and Razorpay test checkout with server-side signature verification.
+CartNest is a role-based e-commerce application built using the MERN stack. It supports three user roles: Admin, Sales Person, and Customer.
 
-## Stack
+## Tech Stack
 
-- React 19, Vite, Tailwind CSS
-- Node.js, Express, MongoDB, Mongoose
-- JWT authentication and bcrypt password hashing
-- Cloudinary image storage
-- Razorpay test payments
-- Render backend and Vercel frontend configuration
+### Frontend
+
+- React
+- Vite
+- Tailwind CSS
+- Axios
+- React Router
+
+### Backend
+
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT authentication
+- bcryptjs
+
+### Services
+
+- Cloudinary for product images
+- Razorpay for test payments
+- Render for backend hosting
+- Netlify for frontend hosting
+- MongoDB Atlas for the production database
 
 ## Features
 
-- Public product search and category/price filters
-- Customer cart, wishlist, checkout, and order history
-- Sales people can create, edit, and delete only their products and see relevant orders
-- Admin can manage every product, user roles, order statuses, and sales stats
-- Product images are streamed from memory to Cloudinary; no raw images are stored by the server
-- The backend recomputes totals and verifies Razorpay signatures before creating an order
+### Customer
 
-## Project structure
+- Register and login
+- Browse products
+- Search and filter products
+- Add products to wishlist
+- Add products to cart
+- Update cart quantities
+- Complete payments using Razorpay test mode
+- View order history
+
+### Sales Person
+
+- Add products
+- Edit their own products
+- Delete their own products
+- View orders containing their products
+
+### Admin
+
+- Manage all products
+- Manage users and their roles
+- View all orders
+- Update order status
+- View sales statistics
+
+Role permissions are checked on the backend.
+
+## Project Structure
 
 ```text
 cartnest/
 ├── backend/
-│   └── src/
-│       ├── config/       database and Cloudinary setup
-│       ├── controllers/  request handling and business rules
-│       ├── middleware/   authentication, roles, uploads, errors
-│       ├── models/       Mongoose schemas
-│       ├── routes/       API routes
-│       └── utils/
+│   ├── src/
+│   │   ├── config/
+│   │   ├── controllers/
+│   │   ├── middleware/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   └── server.js
+│   ├── .env.example
+│   └── package.json
 ├── frontend/
-│   └── src/
-│       ├── api/          Axios client
-│       ├── components/   shared UI
-│       ├── context/      authentication and shop state
-│       └── pages/        route pages
-└── render.yaml
+│   ├── public/
+│   ├── src/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── context/
+│   │   └── pages/
+│   └── package.json
+└── README.md
 ```
 
-## Run locally
+## Local Setup
 
-Requirements: Node.js 20+ and MongoDB Community Server running locally.
+### Requirements
 
-1. The local backend is configured to use `mongodb://localhost:27017/task` in `backend/.env`.
-2. Copy `frontend/.env.example` to `frontend/.env`.
-3. From the project root, run:
+Install the following before running the project:
+
+- Node.js 20 or later
+- MongoDB Community Server
+- Git
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/rishabhyadav8081/Assignment.git
+cd Assignment
+```
+
+### Install Dependencies
 
 ```bash
 npm install
 npm run install:all
-npm run seed
+```
+
+### Backend Environment Variables
+
+Create `backend/.env` and add:
+
+```env
+PORT=5001
+MONGODB_URI=mongodb://localhost:27017/task
+
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRE=7d
+NODE_ENV=development
+
+FRONTEND_URL=http://localhost:5173
+
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+
+RAZORPAY_KEY_ID=your_razorpay_test_key
+RAZORPAY_KEY_SECRET=your_razorpay_test_secret
+```
+
+### Frontend Environment Variables
+
+Create `frontend/.env` and add:
+
+```env
+VITE_API_URL=http://localhost:5001/api
+```
+
+### Run the Project
+
+Run both frontend and backend:
+
+```bash
 npm run dev
 ```
 
-Frontend: `http://localhost:5173`  
-Backend health check: `http://localhost:5001/api/health`
+Local URLs:
 
-The frontend API URL is read from `VITE_API_URL` and falls back to the local API during development. Set `VITE_API_URL` in Vercel after deploying the backend.
+```text
+Frontend: http://localhost:5173
+Backend: http://localhost:5001
+Health check: http://localhost:5001/api/health
+```
 
-## Demo accounts
+## Test Credentials
 
-Run `npm run seed` after configuring MongoDB.
+### Admin
 
-| Role | Email | Password |
-|---|---|---|
-| Admin | admin@cartnest.com | Admin123! |
-| Sales Person | sales@cartnest.com | Sales123! |
-| User | user@cartnest.com | User123! |
+```text
+Email: admin@gmail.com
+Password: admin123
+```
 
-Change these credentials before using the application outside a demonstration.
+### Sales Person
 
-## External service setup
+```text
+Email: sales@gmail.com
+Password: sales123
+```
 
-### MongoDB Atlas
+Customers can create an account using the registration page.
 
-1. Create a free account at MongoDB Atlas and create an M0 cluster.
-2. In **Database Access**, create a database user.
-3. In **Network Access**, allow your current IP for local work. Render needs network access too; for a demo, add `0.0.0.0/0` and use a strong database password.
-4. Select **Connect → Drivers**, copy the connection string, replace its password, and set it as `MONGODB_URI`.
+## Production URLs
 
-### Cloudinary
-
-1. Create a free Cloudinary account.
-2. Open the dashboard and copy the Cloud Name, API Key, and API Secret.
-3. Put them in the matching `CLOUDINARY_*` variables in `backend/.env` and later in Render.
-4. The app creates the `cartnest/products` folder automatically on the first upload.
-
-### Razorpay test mode
-
-1. Create a Razorpay account and complete the requested account details. Real activation is not needed for test payments.
-2. Switch the dashboard to **Test Mode**.
-3. Open **Account & Settings → API Keys** and generate a test key.
-4. Add the key ID and secret to `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET`. The secret belongs only on the backend.
-5. During checkout use a Razorpay test payment method from their test-mode documentation. No real money is charged.
+```text
+Frontend: https://assignment-task-mern.netlify.app
+Backend: https://assignment-3-a4ms.onrender.com
+Health check: https://assignment-3-a4ms.onrender.com/api/health
+```
 
 ## Deployment
-## seed 
-{ name: 'Admin Demo', email: 'admin@assignment.com', password: 'Admin@123', role: 'admin' },
-  { name: 'Sales Demo', email: 'sales@assignment.com', password: 'Sales@123', role: 'sales' },
-  { name: 'Customer Demo', email: 'user@assignment.com', password: 'User@123', role: 'user' }
-### Backend on Render
 
-1. Push the repository to GitHub and create a **Web Service** on Render.
-2. Set the root directory to `backend`, build command to `npm install`, and start command to `npm start`. The included `render.yaml` can also create this service.
-3. Add all values from `backend/.env.example`. Set `FRONTEND_URL` to the final Vercel URL.
-4. After deployment, check `https://YOUR-RENDER-URL/api/health`.
-5. Run the seed command locally against the Atlas database, or use Render Shell if available.
+### Backend — Render
 
-### Frontend on Vercel
+Use the following settings:
 
-1. Import the same repository and set the root directory to `frontend`.
-2. Vercel detects Vite. The build command is `npm run build` and output directory is `dist`.
-3. Add `VITE_API_URL=https://YOUR-RENDER-URL/api`.
-4. Deploy, copy the URL, then update Render's `FRONTEND_URL` and redeploy the backend.
+```text
+Root directory: backend
+Build command: npm install
+Start command: npm start
+```
 
-## Suggested Git history
+Add all backend environment variables through the Render dashboard.
 
-This generated workspace is intentionally not committed for you. Create the history yourself as you understand and test each milestone:
+For production, use:
 
-1. `chore: set up frontend and backend projects`
-2. `feat: add database models and authentication`
-3. `feat: enforce role based product permissions`
-4. `feat: add cloudinary product image uploads`
-5. `feat: build product listing and filters`
-6. `feat: add wishlist and cart`
-7. Create branch `feature/razorpay-checkout`
-8. `feat: add razorpay checkout and verification`
-9. Push that branch and open a Pull Request into `main`
-10. `feat: add order and role dashboards`
-11. `docs: add setup and deployment guide`
+```env
+NODE_ENV=production
+FRONTEND_URL=https://assignment-task-mern.netlify.app
+MONGODB_URI=your_mongodb_atlas_connection_string
+```
 
-Do not manufacture old commits after finishing. Commit at the end of each real milestone, and be prepared to explain every change in the review.
+### Frontend — Netlify
 
-## API overview
+Use:
 
-| Area | Main routes |
-|---|---|
-| Auth | `POST /api/auth/register`, `POST /api/auth/login` |
-| Products | `GET /api/products`, protected create/update/delete |
-| Cart/Wishlist | `/api/cart`, `/api/wishlist` |
-| Payment | `POST /api/orders/payment/create`, `POST /api/orders/payment/verify` |
-| Orders | customer `/mine`, sales `/seller`, admin `/` and `/stats` |
-| Users | admin-only `/api/users` and role update |
+```text
+Base directory: frontend
+Build command: npm run build
+Publish directory: dist
+```
 
-## Screenshots
+Add this environment variable:
 
-Add 2–3 screenshots here after running the application with real Cloudinary product images:
+```env
+VITE_API_URL=https://assignment-3-a4ms.onrender.com/api
+```
 
-- Storefront and filters
-- Cart/Razorpay test checkout
-- Admin or sales dashboard
+The `frontend/public/_redirects` file should contain:
 
-## Important review notes
+```text
+/* /index.html 200
+```
 
-- Frontend route guards are for user experience only. Every protected operation is also checked in backend middleware/controllers.
-- Public registration always creates a normal user. Only an admin can promote an account.
-- Product ownership is checked again before update/delete.
-- Order prices and sellers come from MongoDB, never from values sent by the browser.
-- A payment order is fetched from Razorpay and its amount is matched before the database order is created.
-# Assignment
-# Assignment
+## API Routes
+
+```text
+/api/auth
+/api/products
+/api/cart
+/api/wishlist
+/api/orders
+/api/users
+```
+
+## Notes
+
+- Razorpay is configured in test mode.
+- Product images are stored in Cloudinary.
+- Passwords are hashed before being stored.
+- JWT is used for authentication.
+- Environment files are excluded from Git.
+- Render free services may take some time to start after being inactive.
