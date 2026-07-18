@@ -176,7 +176,7 @@ Customers can create an account using the registration page.
 
 ```text
 Frontend: https://assignment-task-mern.netlify.app
-Backend: https://assignment-3-a4ms.onrender.com
+Backend: https://assignment-3-a4ms.onrender.com/api
 Health check: https://assignment-3-a4ms.onrender.com/api/health
 ```
 
